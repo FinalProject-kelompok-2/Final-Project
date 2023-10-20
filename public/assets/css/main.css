@@ -1,0 +1,56 @@
+.text-option{
+    width: 100%; 
+    color: rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid #ced4da; 
+    line-height: 0.1em;
+    text-align: center;
+}
+
+.text-option span {
+    color: #757575;
+    font-size: 14px;
+    background:#fff; 
+    padding: 0 30px;
+}
+
+.layout-logo {
+    margin: 0 40px;
+}
+
+.layout-login {
+    margin: 0 40px;
+    margin-top: 50px;       
+}
+
+.link-register {
+    margin-top: 70px;
+}
+
+.layout-register {
+    margin: 0 40px;
+    margin-top: 30px;       
+}
+
+.form-control::-webkit-input-placeholder{
+	color: #9E9E9E;
+}
+
+@media (min-width: 992px) {
+    .layout-logo {
+        margin: 0 100px;
+    }
+
+    .layout-login {
+        margin: 0 100px;
+        margin-top: 80px;
+    }
+
+    .link-register {
+        margin-top: 140px;
+    }
+
+    .layout-register {
+        margin: 0 100px;
+        margin-top: 30px;       
+    }   
+}

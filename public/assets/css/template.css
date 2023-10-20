@@ -1,0 +1,61 @@
+* {
+    font-family: 'Fredoka', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+
+* a {
+    text-decoration: none;
+}
+
+.color-primary-1 {
+    color: #006973;
+}
+
+.bg-primary-1 {
+    background-color: #006973;
+}
+
+.bg-primary-2 {
+    background-color: #00838F;
+}
+
+.font-size-30 {
+    font-size: 30px;
+}
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+.font-size-12 {
+    font-size: 12px;
+}
+
+.font-weight-700 {
+    font-weight: 700;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.font-weight-500 {
+    font-weight: 500;
+}
+
+.margin-x-100 {
+    margin: 0 100px;
+}
+
+.margin-top-120 {
+    margin-top: 120px;
+}
+
+.margin-top-80 {
+    margin-top: 80px;
+}
+
+.btn-primary-white {
+    border-radius: 8px;
+    border: 2px solid #00838F;
+}
