@@ -35,6 +35,8 @@ Route::prefix('user')->group(function () {
     Route::middleware(['auth', 'isUser'])->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('home','home')->name('user.home');
+            Route::get('profile','profile')->name('user.profile');
+            Route::post('profile','edit_profile')->name('user.edit_profile');
         });
     });
 });
