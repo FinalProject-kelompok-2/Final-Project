@@ -11,6 +11,10 @@
     color: #006973;
 }
 
+.color-secondary-1 {
+    color: #6B7088;
+}
+
 .bg-primary-1 {
     background-color: #006973;
 }
@@ -23,12 +27,28 @@
     font-size: 30px;
 }
 
+.font-size-24 {
+    font-size: 24px;
+}
+
 .font-size-20 {
     font-size: 20px;
 }
 
-.font-size-12 {
-    font-size: 12px;
+.font-size-17 {
+    font-size: 17px;
+}
+
+.font-size-15 {
+    font-size: 15px;
+}
+
+.font-size-13 {
+    font-size: 13px;
+}
+
+.font-size-11 {
+    font-size: 10px;
 }
 
 .font-weight-700 {
