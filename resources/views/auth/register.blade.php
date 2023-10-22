@@ -61,7 +61,10 @@
                         <h6 class="text-option mt-4">
                             <span>Atau login dengan</span>
                         </h6>
-                        <x-btn-primary-white type="submit" class="w-100 py-2 mt-3">Google</x-btn-primary-white>
+                        <x-btn-primary-white type="submit" class="d-flex align-items-center justify-content-center color-primary-1 w-100 py-2 mt-4">
+                            <img src="{{ asset('assets/img/google-icon.svg') }}" class="me-1" alt="google_logo">
+                            Google
+                        </x-btn-primary-white>
                         
                         <div class="text-center font-weight-500 mt-5 mb-5 mb-md-0">
                             Sudah punya akun? 

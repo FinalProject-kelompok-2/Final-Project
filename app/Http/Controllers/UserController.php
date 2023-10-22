@@ -50,4 +50,9 @@ class UserController extends Controller
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         return view('user.pages.pengajuan-pinjaman', compact('user'));
     }
+
+    function riwayat_pembayaran() {
+        $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
+        return view('user.pages.riwayat-pembayaran', compact('user'));
+    }
 }
