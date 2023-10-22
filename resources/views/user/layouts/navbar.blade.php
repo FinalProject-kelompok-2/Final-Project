@@ -13,8 +13,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav mx-auto">
                 <a class="nav-link me-3" href="#">Home</a>
-                <a class="nav-link me-3" href="#">Features</a>
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link me-3" href="#">Riwayat Pembayaran</a>
+                <a class="nav-link" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
             </div>
             @if (Auth::check())
                 <div class="btn-group">

@@ -37,6 +37,7 @@ Route::prefix('user')->group(function () {
             Route::get('home','home')->name('user.home');
             Route::get('profile','profile')->name('user.profile');
             Route::post('profile','edit_profile')->name('user.edit_profile');
+            Route::get('pengajuan-pinjaman','pengajuan_pinjaman')->name('user.pengajuan-pinjaman');
         });
     });
 });

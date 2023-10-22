@@ -103,7 +103,7 @@
                 <span class="font-size-13 font-weight-600">6%</span>
             </div>
             <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                <span class="font-size-13 font-weight-500 m-0">Teneur</span>
+                <span class="font-size-13 font-weight-500 m-0">Tenor</span>
                 <span class="font-size-13 font-weight-600">12 Bulan</span>
             </div>
             <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
