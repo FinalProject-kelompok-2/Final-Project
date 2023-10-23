@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pinjaman', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('tenor_id');
             $table->string('nama_usaha', 20);
             $table->string('foto_ktp');
             $table->string('kk');
@@ -24,12 +25,11 @@ return new class extends Migration
             $table->string('siu');
             $table->string('skdu');
             $table->string('situ');
-            $table->float('jml_pinjaman');
-            $table->enum('tenor', ['6', '12', '24'])->default('6');
-            $table->integer('bunga');
-            $table->boolean('status')->default(true);
+            $table->integer('jml_pinjaman');
+            $table->enum('status', ['Validasi', 'Diterima', 'Ditolak'])->default('Validasi');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('tenor_id')->references('id')->on('tenor');
         });
     }
 

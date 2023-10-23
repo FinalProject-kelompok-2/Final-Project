@@ -38,6 +38,7 @@ Route::prefix('user')->group(function () {
             Route::get('profile','profile')->name('user.profile');
             Route::post('profile','edit_profile')->name('user.edit_profile');
             Route::get('pengajuan-pinjaman','pengajuan_pinjaman')->name('user.pengajuan-pinjaman');
+            Route::post('pengajuan-pinjaman','pengajuan_pinjaman_store')->name('user.pengajuan-pinjaman_store');
             Route::get('riwayat-pembayaran','riwayat_pembayaran')->name('user.riwayat-prmbayaran');
         });
     });

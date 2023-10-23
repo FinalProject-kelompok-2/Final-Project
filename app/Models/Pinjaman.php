@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pinjaman extends Model
 {
@@ -12,8 +12,11 @@ class Pinjaman extends Model
     protected $table = 'pinjaman';
 
     protected $fillable = [
-        'nama_toko',
+        'user_id',
+        'nama_usaha',
+        'tenor_id',
         'foto_ktp',
+        'kk',
         'npwp',
         'buku_tabungan',
         'proposal_bisnis',
@@ -25,7 +28,11 @@ class Pinjaman extends Model
         'status',
     ];
 
-    public function user(){
+    public function users(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function tenor(){
+        return $this->belongsTo(Tenor::class, 'tenor_id');
     }
 }
