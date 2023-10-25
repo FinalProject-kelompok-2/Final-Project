@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('skdu');
             $table->string('situ');
             $table->integer('jml_pinjaman');
+            $table->integer('tenor');
+            $table->integer('bunga');
             $table->enum('status', ['Validasi', 'Diterima', 'Ditolak'])->default('Validasi');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

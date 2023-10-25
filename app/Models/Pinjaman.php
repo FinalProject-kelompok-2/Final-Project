@@ -24,6 +24,8 @@ class Pinjaman extends Model
         'siu',
         'skdu',
         'situ',
+        'tenor',
+        'bunga',
         'jml_pinjaman',
         'status',
     ];
@@ -34,5 +36,9 @@ class Pinjaman extends Model
 
     public function tenor(){
         return $this->belongsTo(Tenor::class, 'tenor_id');
+    }
+
+    public function angsuran(){
+        return $this->hasMany(Angsuran::class, 'pinjaman_id');
     }
 }

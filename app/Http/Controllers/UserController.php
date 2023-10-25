@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Tenor;
+use App\Models\Angsuran;
 use App\Models\Pinjaman;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -18,7 +19,25 @@ class UserController extends Controller
 
     function home() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
-        return view('user.pages.home', compact('user'));
+        $cekPinjaman = Pinjaman::where('user_id', auth()->user()->id)->first();
+        $pinjamans = Pinjaman::where('user_id', auth()->user()->id)->get();
+        
+        $tagihans = [];
+
+        foreach ($pinjamans as $pinjaman) {
+            if ($pinjaman) {
+                $tagihan = Angsuran::where('pinjaman_id', $pinjaman->id)
+                    ->where('status', false)
+                    ->orderBy('periode', 'asc')
+                    ->get();
+            } else {
+                $tagihan = [];
+            }
+            
+            $tagihans[$pinjaman->id] = $tagihan;
+        }
+    
+        return view('user.pages.home', compact('user', 'cekPinjaman', 'pinjamans', 'tagihans'));
     }
 
     function profile() {
@@ -52,6 +71,9 @@ class UserController extends Controller
     function pengajuan_pinjaman() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         $data = Tenor::all();
+        if (empty($user->userDetail->nik) || empty($user->userDetail->foto_profil) || empty($user->userDetail->no_tlp) || empty($user->userDetail->alamat)) {
+            return redirect()->route('user.home')->with('error', 'Lengkapi profil Anda terlebih dahulu!');
+        }
         return view('user.pages.pengajuan-pinjaman', compact('user', 'data'));
     }
 
@@ -79,6 +101,8 @@ class UserController extends Controller
             $pinjaman->nama_usaha = $request->nama_usaha;
             $pinjaman->jml_pinjaman = $request->jml_pinjaman;
             $pinjaman->tenor_id = $request->tenor_id;
+            $pinjaman->tenor = $tenor->tenor;
+            $pinjaman->bunga = $tenor->bunga;
             $pinjaman->status = 'Validasi';
 
             if ($request->hasFile('foto_ktp')) {
@@ -155,6 +179,21 @@ class UserController extends Controller
 
             $pinjaman->save();
 
+            $biaya_angsuran = $request->jml_pinjaman / $tenor->tenor;
+            $today = now();
+            for ($periode = 1; $periode <= $tenor->tenor; $periode++) {
+                $angsuran = new Angsuran();
+                $angsuran->pinjaman_id = $pinjaman->id;
+                $angsuran->periode = $periode;
+                $angsuran->biaya_angsuran = $biaya_angsuran;
+
+                $jatuhTempo = $today->addMonth(1);
+
+                $angsuran->jatuh_tempo = $jatuhTempo;
+                $angsuran->status = false;
+                $angsuran->save();
+            }
+
             return redirect()->route('user.pengajuan-pinjaman')->with('success', 'Pinjaman berhasil diajukan.');
         } catch (\Throwable $th) {
             return response()->json(['status' => $th->getMessage()]);
@@ -163,6 +202,27 @@ class UserController extends Controller
 
     function riwayat_pembayaran() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
-        return view('user.pages.riwayat-pembayaran', compact('user'));
+        $cekPinjaman = Pinjaman::where('user_id', auth()->user()->id)->first();
+        $pinjamans = Pinjaman::where('user_id', auth()->user()->id)->get();
+        
+        $tagihans = [];
+        $angsurans = [];
+
+        foreach ($pinjamans as $pinjaman) {
+            if ($pinjaman) {
+                $angsuran = Angsuran::where('pinjaman_id', $pinjaman->id)->get();
+                $tagihan = Angsuran::where('pinjaman_id', $pinjaman->id)
+                    ->where('status', false)
+                    ->orderBy('periode', 'asc')
+                    ->first();
+            } else {
+                $angsuran = [];
+                $tagihan = [];
+            }
+            
+            $tagihans[$pinjaman->id] = $tagihan;
+            $angsurans[$pinjaman->id] = $angsuran;
+        }
+        return view('user.pages.riwayat-pembayaran', compact('user', 'cekPinjaman', 'pinjamans', 'angsurans', 'tagihans'));
     }
 }
