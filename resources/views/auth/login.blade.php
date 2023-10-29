@@ -44,7 +44,7 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Masukkan Email Anda">
+                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Masukkan Email Anda">
                         </div>
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Password</label>

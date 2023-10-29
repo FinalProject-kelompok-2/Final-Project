@@ -55,6 +55,16 @@
     }   
 }
 
+.nav-hover:hover {
+    color: #006973;
+}
+
+.nav-hover.active {
+    color: #006973 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #006973;
+}
+
 .status-green {
     padding: 6px 12px;
     background: rgba(30, 137, 30, 0.08);
@@ -71,4 +81,21 @@
     font-weight: 600;
     font-size: 12px;
     color: #E12C41;
+}
+
+.nav-item-form-pinjaman {
+    border-bottom: 2px solid #F3F3F3;
+}
+
+.nav-link-form-pinjaman {
+    color: #757575;
+}
+
+.nav-link-form-pinjaman.active {
+    color: #1D75DA;
+    border-bottom: 2px solid #1D75DA;
+}
+
+.completed {
+    color: #1E891E;
 }

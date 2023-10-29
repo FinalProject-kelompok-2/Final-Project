@@ -14,8 +14,10 @@ class Pinjaman extends Model
     protected $fillable = [
         'user_id',
         'nama_usaha',
+        'deskripsi_usaha',
         'tenor_id',
         'foto_ktp',
+        'selfie_ktp',
         'kk',
         'npwp',
         'buku_tabungan',

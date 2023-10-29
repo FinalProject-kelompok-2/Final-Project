@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tenor_id');
             $table->string('nama_usaha', 20);
+            $table->string('deskripsi_usaha');
             $table->string('foto_ktp');
+            $table->string('selfie_ktp');
             $table->string('kk');
             $table->string('npwp');
             $table->string('buku_tabungan');

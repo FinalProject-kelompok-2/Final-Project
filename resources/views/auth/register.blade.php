@@ -42,19 +42,19 @@
                         @csrf
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Nama Lengkap</label>
-                            <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama Lengkap Anda">
+                            <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" placeholder="Masukkan Nama Lengkap Anda">
                         </div>
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Email</label>
-                            <input type="email" class="form-control" name="email" placeholder="Masukkan Email Anda">
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Masukkan Email Anda">
                         </div>
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password Anda">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Masukkan Password Anda">
                         </div>
                         <div class="mb-3">
                             <label class="form-label font-weight-500">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="passwordConfirm" name="password" placeholder="Konfirmasi Password Anda">
+                            <input type="password" name="password" class="form-control" id="passwordConfirm" placeholder="Konfirmasi Password Anda">
                         </div>
 
                         <x-btn-primary-green type="button" class="w-100 py-2 mt-3" id="register">Register</x-btn-primary-green>

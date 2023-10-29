@@ -6,9 +6,9 @@
             </a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto">
-                    <a class="nav-link me-3" href="{{ route('user.home') }}">Home</a>
-                    <a class="nav-link me-3" href="{{ route('user.riwayat-prmbayaran') }}">Riwayat Pembayaran</a>
-                    <a class="nav-link" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
+                    <a class="nav-link nav-hover me-3 {{ (request()-> is('user/home')) ? 'active' : '' }}" href="{{ route('user.home') }}">Home</a>
+                    <a class="nav-link nav-hover me-3 {{ (request()-> is('user/riwayat-pembayaran')) ? 'active' : '' }}" href="{{ route('user.riwayat-prmbayaran') }}">Riwayat Pembayaran</a>
+                    <a class="nav-link nav-hover {{ (request()-> is('user/pengajuan-pinjaman')) ? 'active' : '' }}" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-transparant dropdown-toggle m-0" data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,9 +27,9 @@
             </a>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto">
-                    <a class="nav-link me-3" href="">Tentang Kami</a>
-                    <a class="nav-link me-3" href="">Kontak</a>
-                    <a class="nav-link" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
+                    <a class="nav-link nav-hover me-3" href="">Tentang Kami</a>
+                    <a class="nav-link nav-hover me-3" href="">Kontak</a>
+                    <a class="nav-link nav-hover" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
                 </div>
                 <div class="float-end">
                     <x-btn-primary-green class="py-2 px-3 me-1" onclick="location.href = '{{ route('login') }}'">Login</x-btn-primary-green>

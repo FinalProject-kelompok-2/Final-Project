@@ -46,6 +46,11 @@ class UserController extends Controller
     }
 
     function edit_profile(Request $request) {
+        $request->validate([
+            'nama' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
         try {
             $user = User::where('id', Auth::user()->id)->first();
             $user->nama = $request->nama;
@@ -80,12 +85,14 @@ class UserController extends Controller
     function pengajuan_pinjaman_store(Request $request) {
         $request->validate([
             'nama_usaha' => 'required|string',
-            'foto_ktp' => 'required|file|mimes:pdf',
+            'deskripsi_usaha' => 'required|string',
+            'foto_ktp' => 'required|file|mimes:png,jpg,jpeg',
+            'selfie_ktp' => 'required|file|mimes:png,jpg,jpeg',
             'kk' => 'required|file|mimes:pdf',
             'npwp' => 'required|file|mimes:pdf',
             'buku_tabungan' => 'required|file|mimes:pdf',
             'proposal_bisnis' => 'required|file|mimes:pdf',
-            'laporan_keuangan' => 'required|file|mimes:pdf',
+            'laporan_keuangan' => 'required|file|mimes:pdf,xls,xlsx',
             'siu' => 'required|file|mimes:pdf',
             'skdu' => 'required|file|mimes:pdf',
             'situ' => 'required|file|mimes:pdf',
@@ -99,6 +106,7 @@ class UserController extends Controller
             $pinjaman = new Pinjaman();
             $pinjaman->user_id = auth()->user()->id;
             $pinjaman->nama_usaha = $request->nama_usaha;
+            $pinjaman->deskripsi_usaha = $request->deskripsi_usaha;
             $pinjaman->jml_pinjaman = $request->jml_pinjaman;
             $pinjaman->tenor_id = $request->tenor_id;
             $pinjaman->tenor = $tenor->tenor;
@@ -111,6 +119,14 @@ class UserController extends Controller
                 $foto_ktp->storeAs('public/dokumen', $fotoKtpFileName);
 
                 $pinjaman->foto_ktp = $fotoKtpFileName;
+            }
+
+            if ($request->hasFile('selfie_ktp')) {
+                $selfie_ktp = $request->file('selfie_ktp');
+                $selfieKtpFileName = 'foto_selfie_ktp_' . auth()->user()->id . '_' . str_replace(' ', '', $request->nama_usaha) . '.' . $selfie_ktp->extension();
+                $selfie_ktp->storeAs('public/dokumen', $selfieKtpFileName);
+
+                $pinjaman->selfie_ktp = $selfieKtpFileName;
             }
 
             if ($request->hasFile('kk')) {

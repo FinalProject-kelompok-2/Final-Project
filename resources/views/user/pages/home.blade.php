@@ -37,7 +37,7 @@
                                 <div class="card shadow border-0 p-4 mt-3 mt-md-0">
                                     <span class="font-size-13 font-weight-600">Hutang Belum Dibayar</span>
                                     <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', false)->sum('biaya_angsuran'), 2) }}</h2>
-                                    <span class="text-primary font-size-11 font-weight-600">Total hutang sudah termasuk bunga 6%</span>
+                                    <span class="text-primary font-size-11 font-weight-600">Total hutang sudah termasuk bunga {{ $pinjaman->bunga }}%</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -75,7 +75,7 @@
                             <h2 class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</h2>
                             <div class="mt-2 border border-secondary rounded p-2">
                                 <span class="font-size-15 font-weight-600">Deskripsi Usaha</span>
-                                <p class="font-size-15 font-weight-500 mt-2 mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit quia praesentium quos optio molestiae quis perspiciatis a.</p>
+                                <p class="font-size-15 font-weight-500 mt-2 mb-1">{{ $pinjaman->deskripsi_usaha }}.</p>
                             </div>
                             <h3 class="font-size-15 font-weight-600 mt-5">Informasi Pinjaman</h3>
                             <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
