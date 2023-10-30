@@ -65,12 +65,30 @@
     border-bottom: 2px solid #006973;
 }
 
+.status-orange {
+    padding: 6px 12px;
+    background: rgba(228, 82, 0, 0.08);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #E45200;
+}
+
+.status-blue {
+    padding: 6px 12px;
+    background: rgba(29, 117, 218, 0.08);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1D75DA;
+}
+
 .status-green {
     padding: 6px 12px;
     background: rgba(30, 137, 30, 0.08);
     border-radius: 12px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     color: #1E891E;
 }
 
@@ -79,7 +97,7 @@
     background: rgba(225, 44, 65, 0.08);
     border-radius: 12px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     color: #E12C41;
 }
 

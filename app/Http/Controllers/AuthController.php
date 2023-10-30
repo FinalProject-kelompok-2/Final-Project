@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    function login() {
+    public function login() {
         if (Auth::check()) {
             if (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
@@ -49,7 +49,7 @@ class AuthController extends Controller
         }
     }
 
-    function register() {
+    public function register() {
         return view('auth.register');
     }
 

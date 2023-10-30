@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('jml_pinjaman');
             $table->integer('tenor');
             $table->integer('bunga');
-            $table->enum('status', ['Validasi', 'Diterima', 'Ditolak'])->default('Validasi');
+            $table->enum('status', ['Diproses', 'Penawaran', 'Dikonfirmasi', 'Diterima', 'Ditolak'])->default('Diproses');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('tenor_id')->references('id')->on('tenor');

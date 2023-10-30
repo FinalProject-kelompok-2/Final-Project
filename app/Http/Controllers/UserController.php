@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    function landing() {
+    public function landing() {
         return view('user.pages.landing');
     }
 
-    function home() {
+    public function home() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         $cekPinjaman = Pinjaman::where('user_id', auth()->user()->id)->first();
         $pinjamans = Pinjaman::where('user_id', auth()->user()->id)->get();
@@ -40,12 +40,12 @@ class UserController extends Controller
         return view('user.pages.home', compact('user', 'cekPinjaman', 'pinjamans', 'tagihans'));
     }
 
-    function profile() {
+    public function profile() {
         $user = User::where('id', Auth::user()->id)->with('UserDetail')->first();
         return view('user.pages.profile', compact('user'));
     }
 
-    function edit_profile(Request $request) {
+    public function edit_profile(Request $request) {
         $request->validate([
             'nama' => 'required|string',
             'email' => 'required|email',
@@ -62,8 +62,8 @@ class UserController extends Controller
             $userDetail->no_tlp = $request->no_tlp;
             $userDetail->alamat = $request->alamat;
             if($request->hasFile('file')){
-                $userDetail->foto_profil = 'photo'.time().'.'.$request->file->extension();
-                $request->file->move(public_path('profile'), 'photo'.time().'.'.$request->file->extension());
+                $userDetail->foto_profil = 'foto_profil_'. auth()->user()->id . '_' . str_replace(' ', '', auth()->user()->nama) . '.' . $request->file->extension();
+                $request->file->move(public_path('profile'), 'foto_profil_'. auth()->user()->id . '_' . str_replace(' ', '', auth()->user()->nama) . '.' . $request->file->extension());
             }
             $userDetail->save();
             
@@ -73,7 +73,7 @@ class UserController extends Controller
         }
     }
 
-    function pengajuan_pinjaman() {
+    public function pengajuan_pinjaman() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         $data = Tenor::all();
         if (empty($user->userDetail->nik) || empty($user->userDetail->foto_profil) || empty($user->userDetail->no_tlp) || empty($user->userDetail->alamat)) {
@@ -82,7 +82,7 @@ class UserController extends Controller
         return view('user.pages.pengajuan-pinjaman', compact('user', 'data'));
     }
 
-    function pengajuan_pinjaman_store(Request $request) {
+    public function pengajuan_pinjaman_store(Request $request) {
         $request->validate([
             'nama_usaha' => 'required|string',
             'deskripsi_usaha' => 'required|string',
@@ -111,7 +111,7 @@ class UserController extends Controller
             $pinjaman->tenor_id = $request->tenor_id;
             $pinjaman->tenor = $tenor->tenor;
             $pinjaman->bunga = $tenor->bunga;
-            $pinjaman->status = 'Validasi';
+            $pinjaman->status = 'Diproses';
 
             if ($request->hasFile('foto_ktp')) {
                 $foto_ktp = $request->file('foto_ktp');
@@ -195,28 +195,29 @@ class UserController extends Controller
 
             $pinjaman->save();
 
-            $biaya_angsuran = $request->jml_pinjaman / $tenor->tenor;
-            $today = now();
-            for ($periode = 1; $periode <= $tenor->tenor; $periode++) {
-                $angsuran = new Angsuran();
-                $angsuran->pinjaman_id = $pinjaman->id;
-                $angsuran->periode = $periode;
-                $angsuran->biaya_angsuran = $biaya_angsuran;
-
-                $jatuhTempo = $today->addMonth(1);
-
-                $angsuran->jatuh_tempo = $jatuhTempo;
-                $angsuran->status = false;
-                $angsuran->save();
-            }
-
             return redirect()->route('user.pengajuan-pinjaman')->with('success', 'Pinjaman berhasil diajukan.');
         } catch (\Throwable $th) {
             return response()->json(['status' => $th->getMessage()]);
         }
     }
 
-    function riwayat_pembayaran() {
+    public function konfirmasi_pinjaman($id) {
+        $pinjaman = Pinjaman::findOrFail($id);
+        $pinjaman->status = 'Dikonfirmasi';
+        $pinjaman->save();
+    
+        return redirect()->route('user.home')->with('success', 'Pinjaman berhasil dikonfirmasi.');
+    }
+
+    public function tolak_pinjaman($id) {
+        $pinjaman = Pinjaman::findOrFail($id);
+        $pinjaman->status = 'Ditolak';
+        $pinjaman->save();
+    
+        return redirect()->route('user.home')->with('success', 'Pinjaman berhasil ditolak.');
+    }
+
+    public function riwayat_pembayaran() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         $cekPinjaman = Pinjaman::where('user_id', auth()->user()->id)->first();
         $pinjamans = Pinjaman::where('user_id', auth()->user()->id)->get();

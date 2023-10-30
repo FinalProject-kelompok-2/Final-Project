@@ -15,8 +15,9 @@
                         Hello, {{Auth::user()->nama}}
                         <img height="25" width="25" class="rounded-circle ms-2" src="{{ $user->userDetail->foto_profil ? asset('profile/' . $user->userDetail->foto_profil) : asset('assets/img/profile.svg') }}">
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
+                        <div class="dropdown-divider"></div>
                         <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
                 </div>

@@ -27,6 +27,12 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth', 'isAdmin'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('dashboard','dashboard')->name('admin.dashboard');
+            Route::get('kelola-pinjaman','kelola_pinjaman')->name('admin.kelola-pinjaman');
+            Route::get('detail-pinjaman/{id}','detail_pinjaman')->name('admin.detail-pinjaman');
+            Route::post('konfirmasi-pinjaman/{id}','konfirmasi_pinjaman')->name('admin.konfirmasi-pinjaman');
+            Route::post('tolak-pinjaman/{id}','tolak_pinjaman')->name('admin.tolak-pinjaman');
+            Route::post('edit-pinjaman/{id}','edit_pinjaman')->name('admin.edit-pinjaman');
+            Route::post('pencairan-dana/{id}','pencairan_dana')->name('admin.pencairan-dana');
         });
     });
 });
@@ -40,6 +46,8 @@ Route::prefix('user')->group(function () {
             Route::get('pengajuan-pinjaman','pengajuan_pinjaman')->name('user.pengajuan-pinjaman');
             Route::post('pengajuan-pinjaman','pengajuan_pinjaman_store')->name('user.pengajuan-pinjaman_store');
             Route::get('riwayat-pembayaran','riwayat_pembayaran')->name('user.riwayat-prmbayaran');
+            Route::post('konfirmasi-pinjaman/{id}','konfirmasi_pinjaman')->name('user.konfirmasi-pinjaman');
+            Route::post('tolak-pinjaman/{id}','tolak_pinjaman')->name('user.tolak-pinjaman');
         });
     });
 });
