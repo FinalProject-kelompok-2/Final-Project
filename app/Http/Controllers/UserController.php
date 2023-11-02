@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bank;
 use App\Models\User;
 use App\Models\Tenor;
 use App\Models\Angsuran;
@@ -27,7 +28,7 @@ class UserController extends Controller
         foreach ($pinjamans as $pinjaman) {
             if ($pinjaman) {
                 $tagihan = Angsuran::where('pinjaman_id', $pinjaman->id)
-                    ->where('status', false)
+                    ->where('status', 'Tunggak')
                     ->orderBy('periode', 'asc')
                     ->get();
             } else {
@@ -76,10 +77,11 @@ class UserController extends Controller
     public function pengajuan_pinjaman() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
         $data = Tenor::all();
+        $bank = Bank::all();
         if (empty($user->userDetail->nik) || empty($user->userDetail->foto_profil) || empty($user->userDetail->no_tlp) || empty($user->userDetail->alamat)) {
             return redirect()->route('user.home')->with('error', 'Lengkapi profil Anda terlebih dahulu!');
         }
-        return view('user.pages.pengajuan-pinjaman', compact('user', 'data'));
+        return view('user.pages.pengajuan-pinjaman', compact('user', 'data', 'bank'));
     }
 
     public function pengajuan_pinjaman_store(Request $request) {
@@ -91,6 +93,8 @@ class UserController extends Controller
             'kk' => 'required|file|mimes:pdf',
             'npwp' => 'required|file|mimes:pdf',
             'buku_tabungan' => 'required|file|mimes:pdf',
+            'no_rekening' => 'required|string',
+            'nama_rekening' => 'required|string',
             'proposal_bisnis' => 'required|file|mimes:pdf',
             'laporan_keuangan' => 'required|file|mimes:pdf,xls,xlsx',
             'siu' => 'required|file|mimes:pdf',
@@ -98,16 +102,22 @@ class UserController extends Controller
             'situ' => 'required|file|mimes:pdf',
             'jml_pinjaman' => 'required|integer',
             'tenor_id' => 'required|exists:tenor,id',
+            'bank_id' => 'required|exists:bank,id',
         ]);
 
         try {
             $tenor = Tenor::find($request->tenor_id);
+            $bank = Bank::find($request->bank_id);
 
             $pinjaman = new Pinjaman();
             $pinjaman->user_id = auth()->user()->id;
             $pinjaman->nama_usaha = $request->nama_usaha;
             $pinjaman->deskripsi_usaha = $request->deskripsi_usaha;
+            $pinjaman->no_rekening = $request->no_rekening;
+            $pinjaman->nama_rekening = $request->nama_rekening;
             $pinjaman->jml_pinjaman = $request->jml_pinjaman;
+            $pinjaman->bank_id = $request->bank_id;
+            $pinjaman->nama_bank = $bank->nama_bank;
             $pinjaman->tenor_id = $request->tenor_id;
             $pinjaman->tenor = $tenor->tenor;
             $pinjaman->bunga = $tenor->bunga;
@@ -229,7 +239,7 @@ class UserController extends Controller
             if ($pinjaman) {
                 $angsuran = Angsuran::where('pinjaman_id', $pinjaman->id)->get();
                 $tagihan = Angsuran::where('pinjaman_id', $pinjaman->id)
-                    ->where('status', false)
+                    ->where('status', 'Tunggak')
                     ->orderBy('periode', 'asc')
                     ->first();
             } else {
@@ -241,5 +251,32 @@ class UserController extends Controller
             $angsurans[$pinjaman->id] = $angsuran;
         }
         return view('user.pages.riwayat-pembayaran', compact('user', 'cekPinjaman', 'pinjamans', 'angsurans', 'tagihans'));
+    }
+
+    public function konfirmasi_pembayaran($id) {
+        $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
+        $angsuran = Angsuran::findOrFail($id);
+        return view('user.pages.konfirmasi-pembayaran', compact('user', 'angsuran'));
+    }
+
+    public function konfirmasi_pembayaran_store(Request $request, $id) {
+        $request->validate([
+            'bukti_pembayaran' => 'required|file|mimes:pdf',
+        ]);
+        
+        $angsuran = Angsuran::findOrFail($id);
+        
+        if ($request->hasFile('bukti_pembayaran')) {
+            $bukti_pembayaran = $request->file('bukti_pembayaran');
+            $buktiPembayaranFileName = 'bukti_pembayaran_' . $angsuran->id . '.' . $bukti_pembayaran->extension();
+            $bukti_pembayaran->storeAs('public/bukti_pembayaran', $buktiPembayaranFileName);
+            
+            $angsuran->bukti_pembayaran = $buktiPembayaranFileName;
+            $angsuran->status = 'Proses';
+        }
+
+        $angsuran->save();
+        
+        return redirect()->route('user.riwayat-pembayaran')->with('success', 'Bukti pembayaran berhasil dikonfirmasi.');
     }
 }

@@ -11,6 +11,7 @@
     <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama Usaha</th>
                 <th>Jumlah Pinjaman</th>
                 <th>Tenor</th>
@@ -21,8 +22,10 @@
             </tr>
         </thead>
         <tbody>
+            <?php $no = 1;?>
             @foreach ($pinjamans as $pinjaman)
                 <tr>
+                    <td>{{ $no++ }}</td>
                     <td>{{ $pinjaman->nama_usaha }}</td>
                     <td>{{ number_format($pinjaman->jml_pinjaman, 2) }}</td>
                     <td>{{ $pinjaman->tenor }} Bulan</td>

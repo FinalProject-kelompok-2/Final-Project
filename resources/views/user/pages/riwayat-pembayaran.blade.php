@@ -38,6 +38,7 @@
                                                 <th scope="col">Biaya Angsuran</th>
                                                 <th scope="col">Batas Waktu Pembayaran</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,11 +50,18 @@
                                                     <td>Rp {{ number_format($data->biaya_angsuran, 2) }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($data->jatuh_tempo)->format('d F Y') }}</td>
                                                     <td>
-                                                        @if ($data->status)
+                                                        @if ($data->status == 'Lunas')
                                                             <span class="font-size-13 font-weight-600 status-green">Sudah Dibayar</span>
+                                                        @elseif ($data->status == 'Proses')
+                                                            <span class="font-size-13 font-weight-600 status-orange">Diproses</span>
                                                         @else
                                                             <span class="font-size-13 font-weight-600 status-red">Belum Dibayar</span>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('user.konfirmasi-pembayaran', ['id' => $data->id]) }}">
+                                                            <x-btn-primary-green class="font-size-13 py-2 px-3">Konfirmasi Pembayaran</x-btn-primary-green>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -76,15 +84,26 @@
                                     <span class="font-size-13 font-weight-500 m-0">Biaya Angsuran</span>
                                     <span class="font-size-13 font-weight-600">Rp {{ number_format($tagihans[$pinjaman->id]->biaya_angsuran, 2) }}</span>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between mt-3 pb-3" style="border-bottom: 1px dashed grey;">
+                                <div class="d-flex align-items-center justify-content-between mt-3">
                                     <span class="font-size-13 font-weight-500 m-0">Batas Waktu <br> Pembayaran</span>
                                     <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($tagihans[$pinjaman->id]->jatuh_tempo)->format('d F Y') }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-3">
+                                    <span class="font-size-13 font-weight-500 m-0">Rekening Tujuan</span>
+                                    <span class="font-size-13 font-weight-600">112783654453</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-3">
+                                    <span class="font-size-13 font-weight-500 m-0">Atas Nama</span>
+                                    <span class="font-size-13 font-weight-600">PT UMKMPLUS</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-3 pb-3" style="border-bottom: 1px dashed grey;">
+                                    <span class="font-size-13 font-weight-500 m-0">Bank</span>
+                                    <span class="font-size-13 font-weight-600">BRI</span>
                                 </div>
                                 <div class="text-end mt-3">
                                     <p class="font-size-13 font-weight-500 mb-1">Total Tagihan</p>
                                     <span class="font-size-17 font-weight-600">Rp {{ number_format($tagihans[$pinjaman->id]->biaya_angsuran, 2) }}</span>
                                 </div>
-                                <x-btn-primary-green class="py-2 mt-4">Konfirmasi Pembayaran</x-btn-primary-green>
                             </div>
                         </div>
                     </div>
@@ -226,7 +245,7 @@
     </div>
 
 @endif
-    
+
 <div class="modal" tabindex="-1" id="errorModal">
     <div class="modal-dialog">
         <div class="modal-content">

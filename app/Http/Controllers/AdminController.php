@@ -52,13 +52,15 @@ class AdminController extends Controller
         $pinjaman->status = 'Penawaran';
         $pinjaman->save();
         
-        return redirect()->route('admin.kelola-pinjaman')->with('success', 'Perubahan berhasil disimpan.');
+        return redirect()->route('admin.kelola-pinjaman')->with('success', 'Penawaran berhasil dikirim.');
     }
 
     public function pencairan_dana($id) {
         $pinjaman = Pinjaman::findOrFail($id);
 
-        $biaya_angsuran = $pinjaman->jml_pinjaman / $pinjaman->tenor;
+        $total_bunga = ($pinjaman->bunga * $pinjaman->tenor) / 12;
+        $jml_bunga = ($total_bunga / 100) * $pinjaman->jml_pinjaman;
+        $biaya_angsuran = ($pinjaman->jml_pinjaman + $jml_bunga) / $pinjaman->tenor;
         $today = now();
         for ($periode = 1; $periode <= $pinjaman->tenor; $periode++) {
             $angsuran = new Angsuran();
@@ -69,13 +71,13 @@ class AdminController extends Controller
             $jatuhTempo = $today->addMonth(1);
 
             $angsuran->jatuh_tempo = $jatuhTempo;
-            $angsuran->status = false;
+            $angsuran->status = 'Tunggak';
             $angsuran->save();
         }
 
         $pinjaman->status = 'Diterima';
         $pinjaman->save();
 
-        return redirect()->route('admin.kelola-pinjaman')->with('success', 'Pinjaman berhasil.');
+        return redirect()->route('admin.kelola-pinjaman')->with('success', 'Dana pinjaman berhasil dicairkan.');
     }
 }

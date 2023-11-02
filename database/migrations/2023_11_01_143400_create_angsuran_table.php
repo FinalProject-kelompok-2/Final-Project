@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('biaya_angsuran');
             $table->date('jatuh_tempo');
             $table->string('bukti_pembayaran')->nullable(true);
-            $table->boolean('status')->default(false);
+            $table->enum('status', ['Proses', 'Lunas', 'Tunggak'])->default('Tunggak');
             $table->timestamps();
             $table->foreign('pinjaman_id')->references('id')->on('pinjaman');
         });

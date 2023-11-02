@@ -16,11 +16,15 @@ class Pinjaman extends Model
         'nama_usaha',
         'deskripsi_usaha',
         'tenor_id',
+        'bank_id',
         'foto_ktp',
         'selfie_ktp',
         'kk',
         'npwp',
         'buku_tabungan',
+        'no_rekening',
+        'nama_rekening',
+        'nama_bank',
         'proposal_bisnis',
         'laporan_keuangan',
         'siu',
@@ -38,6 +42,10 @@ class Pinjaman extends Model
 
     public function tenor(){
         return $this->belongsTo(Tenor::class, 'tenor_id');
+    }
+
+    public function bank(){
+        return $this->belongsTo(Bank::class, 'bank_id');
     }
 
     public function angsuran(){

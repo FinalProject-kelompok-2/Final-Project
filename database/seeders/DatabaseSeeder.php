@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Bank;
 use App\Models\User;
 use App\Models\Tenor;
 use App\Models\UserDetail;
@@ -20,17 +21,45 @@ class DatabaseSeeder extends Seeder
 
         Tenor::create([
             'tenor' => 6,
-            'bunga' => 5,
+            'bunga' => 13,
         ]);
 
         Tenor::create([
             'tenor' => 12,
-            'bunga' => 4,
+            'bunga' => 12,
         ]);
 
         Tenor::create([
             'tenor' => 24,
-            'bunga' => 3,
+            'bunga' => 10,
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'Mandiri',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'BRI',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'BCA',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'BNI',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'BTN',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'CIMB Niaga',
+        ]);
+
+        Bank::create([
+            'nama_bank' => 'Danamon',
         ]);
     }
 }

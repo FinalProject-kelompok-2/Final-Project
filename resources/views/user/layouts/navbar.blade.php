@@ -7,7 +7,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mx-auto">
                     <a class="nav-link nav-hover me-3 {{ (request()-> is('user/home')) ? 'active' : '' }}" href="{{ route('user.home') }}">Home</a>
-                    <a class="nav-link nav-hover me-3 {{ (request()-> is('user/riwayat-pembayaran')) ? 'active' : '' }}" href="{{ route('user.riwayat-prmbayaran') }}">Riwayat Pembayaran</a>
+                    <a class="nav-link nav-hover me-3 {{ (request()-> is('user/riwayat-pembayaran')) ? 'active' : '' }}" href="{{ route('user.riwayat-pembayaran') }}">Riwayat Pembayaran</a>
                     <a class="nav-link nav-hover {{ (request()-> is('user/pengajuan-pinjaman')) ? 'active' : '' }}" href="{{ route('user.pengajuan-pinjaman') }}">Pengajuan Pinjaman</a>
                 </div>
                 <div class="btn-group">
