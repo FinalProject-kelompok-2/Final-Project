@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Angsuran;
 use App\Models\Pinjaman;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,47 @@ class AdminController extends Controller
 {
     public function dashboard() {
         $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
-        return view('admin.pages.dashboard', compact('user'));
+        $pinjamanAktif = Pinjaman::where('status', 'Diterima')->count();
+        $totalPinjaman = Pinjaman::where('status', 'Diterima')->sum('jml_pinjaman');
+        $pengajuanPinjaman = Pinjaman::where('status', 'Diproses')->count();
+        $angsuranLunas = Angsuran::where('status', 'Lunas')->count();
+        $uangDikembalikan = Angsuran::where('status', 'Lunas')->sum('biaya_angsuran');
+        $angsuranTunggak = Angsuran::where('status', 'Tunggak')->count();
+        $uangBelumDikembalikan = Angsuran::where('status', 'Tunggak')->sum('biaya_angsuran');
+        return view('admin.pages.dashboard', compact('user', 'pinjamanAktif', 'pengajuanPinjaman', 'angsuranLunas', 'angsuranTunggak', 'totalPinjaman', 'uangDikembalikan', 'uangBelumDikembalikan'));
+    }
+
+    public function profile() {
+        $user = User::where('id', Auth::user()->id)->with('UserDetail')->first();
+        return view('admin.pages.profile', compact('user'));
+    }
+
+    public function edit_profile(Request $request) {
+        $request->validate([
+            'nama' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        try {
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->nama = $request->nama;
+            $user->email = $request->email;
+            $user->save();
+
+            $userDetail = UserDetail::where('user_id', Auth::user()->id)->first();
+            $userDetail->nik = $request->nik;
+            $userDetail->no_tlp = $request->no_tlp;
+            $userDetail->alamat = $request->alamat;
+            if($request->hasFile('file')){
+                $userDetail->foto_profil = 'foto_profil_'. auth()->user()->id . '_' . str_replace(' ', '', auth()->user()->nama) . '.' . $request->file->extension();
+                $request->file->move(public_path('profile'), 'foto_profil_'. auth()->user()->id . '_' . str_replace(' ', '', auth()->user()->nama) . '.' . $request->file->extension());
+            }
+            $userDetail->save();
+            
+            return redirect()->route('admin.profile')->with('success', 'Berhasil update profile!');
+        } catch (Throwable $th) {
+            return response()->json(['status' => $th->getMessage()]);
+        }
     }
 
     public function kelola_pinjaman() {
@@ -79,5 +120,19 @@ class AdminController extends Controller
         $pinjaman->save();
 
         return redirect()->route('admin.kelola-pinjaman')->with('success', 'Dana pinjaman berhasil dicairkan.');
+    }
+
+    public function kelola_pembayaran() {
+        $user = User::where('id', Auth::user()->id)->with('userDetail')->first();
+        $angsurans = Angsuran::all();
+        return view('admin.pages.kelola-pembayaran', compact('user', 'angsurans'));
+    }
+
+    public function konfirmasi_pembayaran($id) {
+        $angsuran = Angsuran::findOrFail($id);
+        $angsuran->status = 'Lunas';
+        $angsuran->save();
+    
+        return redirect()->route('admin.kelola-pembayaran')->with('success', 'Pembayaran Angsuran berhasil dikonfirmasi.');
     }
 }

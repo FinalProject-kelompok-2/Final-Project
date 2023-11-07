@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="card shadow border-0 mx-auto my-5 p-4" style="width: 800px;">
+<div class="card shadow border-0 margin-bottom-70 mx-auto margin-top-100 p-4" style="width: 800px;">
     <a href="{{ route('user.home') }}" class="font-weight-500 color-primary-1 mb-4">
         <i class="fa-solid fa-arrow-left me-1" style="color: #006973;"></i>
         Kembali ke Halaman Home
@@ -171,7 +171,7 @@
                     @enderror
                 </div>
                 <div class="form-group mb-5">
-                    <label class="mb-2">Suku Bunga <span class="text-danger fw-bold">*</span></label>
+                    <label class="mb-2">Suku Bunga Per Tahun <span class="text-danger fw-bold">*</span></label>
                     <input class="form-control" id="bungaInput" type="text" disabled readonly>
                 </div>
                 <div class="form-group mb-5">

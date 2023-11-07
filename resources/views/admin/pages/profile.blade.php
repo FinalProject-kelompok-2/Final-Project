@@ -1,11 +1,11 @@
-@extends('user.layouts.main')
+@extends('admin.layout.main')
 
-@section('content')
+@section('contents')
 
-<div class="card shadow mx-auto border-0 margin-bottom-70 w-50 margin-top-100">
-    <a href="{{ route('user.home') }}" class="font-weight-500 color-primary-1 m-3">
+<div class="card shadow mx-auto border-0 w-50 my-4">
+    <a href="{{ route('admin.dashboard') }}" class="font-weight-500 color-primary-1 m-3">
         <i class="fa-solid fa-arrow-left me-1" style="color: #006973;"></i>
-        Kembali ke Halaman Home
+        Kembali ke Dashboard
     </a>
     <div class="p-5 pt-4">
         @if(session('success'))
@@ -13,7 +13,7 @@
         @elseif(session('error'))
             <p class="alert alert-danger">{{ session('error') }}</p>
         @endif
-        <form enctype="multipart/form-data" action="{{ route('user.edit_profile') }}" method="POST">
+        <form enctype="multipart/form-data" action="{{ route('admin.edit_profile') }}" method="POST">
             @csrf
             <div class="d-flex flex-column align-items-center justify-content-center">
                 <img src="{{ $user->userDetail->foto_profil ? asset('profile/' . $user->userDetail->foto_profil) : asset('assets/img/profile.svg') }}" id="preview" class="rounded-circle" height="120px" width="120px" alt="Foto Profil" style="object-fit: cover">

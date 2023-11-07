@@ -27,12 +27,16 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth', 'isAdmin'])->group(function () {
         Route::controller(AdminController::class)->group(function () {
             Route::get('dashboard','dashboard')->name('admin.dashboard');
+            Route::get('profile','profile')->name('admin.profile');
+            Route::post('profile','edit_profile')->name('admin.edit_profile');
             Route::get('kelola-pinjaman','kelola_pinjaman')->name('admin.kelola-pinjaman');
             Route::get('detail-pinjaman/{id}','detail_pinjaman')->name('admin.detail-pinjaman');
             Route::post('konfirmasi-pinjaman/{id}','konfirmasi_pinjaman')->name('admin.konfirmasi-pinjaman');
             Route::post('tolak-pinjaman/{id}','tolak_pinjaman')->name('admin.tolak-pinjaman');
             Route::post('edit-pinjaman/{id}','edit_pinjaman')->name('admin.edit-pinjaman');
             Route::post('pencairan-dana/{id}','pencairan_dana')->name('admin.pencairan-dana');
+            Route::get('kelola-pembayaran','kelola_pembayaran')->name('admin.kelola-pembayaran');
+            Route::post('konfirmasi-pembayaran/{id}','konfirmasi_pembayaran')->name('admin.konfirmasi-pembayaran');
         });
     });
 });

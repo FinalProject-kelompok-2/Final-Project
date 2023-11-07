@@ -4,7 +4,7 @@
 
 @if ($cekPinjaman)
 
-    <div class="dropdown mt-5">
+    <div class="dropdown margin-top-100">
         <x-btn-primary-green class="dropdown-toggle py-2 px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span id="selectedToko">{{ $pinjamans[0]->nama_usaha }}</span>
         </x-btn-primary-green>
@@ -20,7 +20,7 @@
     </div>
 
     
-    <div class="tab-content" id="pills-tabContent">
+    <div class="tab-content margin-bottom-70" id="pills-tabContent">
         @foreach ($pinjamans as $index => $pinjaman)
             <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="pill-{{ $pinjaman->id }}" role="tabpanel" aria-labelledby="pills-{{ $pinjaman->id }}">
                 @if ($pinjaman->status == 'Diterima')
@@ -38,14 +38,14 @@
                                 <div class="col-md-4">
                                     <div class="card shadow border-0 p-4 mt-3 mt-md-0">
                                         <span class="font-size-13 font-weight-600">Hutang Belum Dibayar</span>
-                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', false)->sum('biaya_angsuran'), 2) }}</h2>
-                                        <span class="text-primary font-size-11 font-weight-600">Total hutang sudah termasuk bunga {{ $pinjaman->bunga }}%</span>
+                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', 'Tunggak')->sum('biaya_angsuran'), 2) }}</h2>
+                                        <span class="text-primary font-size-11 font-weight-600">Total hutang sudah termasuk bunga {{ $pinjaman->bunga }}% per tahun</span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card shadow border-0 p-4 mt-3 mt-md-0">
                                         <span class="font-size-13 font-weight-600">Hutang Sudah Dibayar</span>
-                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', true)->sum('biaya_angsuran'), 2) }}</h2>
+                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', 'Lunas')->sum('biaya_angsuran'), 2) }}</h2>
                                         <span class="text-success font-size-11 font-weight-600">Jumlah uang yang sudah dikembalikan</span>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                 <h3 class="font-size-15 font-weight-600 mt-5">Informasi Pinjaman</h3>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
                                     <span class="font-size-13 font-weight-500 m-0">Bunga</span>
-                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}%</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}% Per Tahun</span>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
                                     <span class="font-size-13 font-weight-500 m-0">Tenor</span>
@@ -102,109 +102,185 @@
 
                 @elseif ($pinjaman->status == 'Diproses')
             
-                    <div class="col-md-3 col-sm-12 mt-4">
-                        <div class="card shadow border-0 p-4 mt-4 mt-md-0">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
-                                <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between mt-4">
-                                <span class="font-size-15 font-weight-600">Status</span>
-                                <span class="status-orange">{{ $pinjaman->status }}</span>
-                            </div>
-                            <h3 class="font-size-15 font-weight-600 mt-4">Informasi Pinjaman</h3>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
-                                <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Bunga</span>
-                                <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}%</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Tenor</span>
-                                <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Pengajuan Pinjaman</span>
-                                <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                    <div class="row mt-4">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <div class="card shadow border-0 p-4 mt-4 mt-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
+                                    <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4">
+                                    <span class="font-size-15 font-weight-600">Status</span>
+                                    <span class="status-orange">{{ $pinjaman->status }}</span>
+                                </div>
+                                <h3 class="font-size-15 font-weight-600 mt-4">Informasi Pinjaman</h3>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Bunga</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}% Per Tahun</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Tenor</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Pengajuan Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="card shadow text-center border-0 p-4">
+                                <img src="{{ asset('assets/img/cara-kerja-img-2.png') }}" class="d-block mx-auto" width="320">
+                                <h1 class="font-size-20 font-weight-700 mt-3">Pinjaman Diproses</h1>
+                                <p class="font-size-15 font-weight-500 mt-2">Pinjaman Anda sedang diproses oleh admin UMKMPLUS.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
+                    
 
                 @elseif ($pinjaman->status == 'Penawaran')
         
-                    <div class="col-md-3 col-sm-12 mt-4 mb-5">
-                        <div class="card shadow border-0 p-4 mt-4 mt-md-0">
-                            <div class="d-flex align-items-center">
-                                <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
-                                <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
+                    <div class="row mt-4">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <div class="card shadow border-0 p-4 mt-4 mt-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
+                                    <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4">
+                                    <span class="font-size-15 font-weight-600">Status</span>
+                                    <span class="status-blue">{{ $pinjaman->status }}</span>
+                                </div>
+                                <div class="mt-2 border border-secondary rounded p-2 mt-4">
+                                    <span class="font-size-15 font-weight-600">Note</span>
+                                    <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Jika penawaran pinjaman belum dikonfirmasi sampai tanggal yang sudah ditentukan, maka pengajuan pinjaman otomatis akan dibatalkan.</p>
+                                </div>
+                                <h3 class="font-size-15 font-weight-600 mt-4">Pinjaman yang Ditawarkan</h3>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Bunga</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}% Per Tahun</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Tenor</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Batas Tanggal <br> Konfirmasi Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                                </div>
+                                <button type="button" class="btn btn-primary w-100 mt-4" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiPinjaman{{ $pinjaman->id }}">Setuju</button>
+                                <button type="button" class="btn btn-danger w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalTolakPinjaman{{ $pinjaman->id }}">Tolak</button>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between mt-4">
-                                <span class="font-size-15 font-weight-600">Status</span>
-                                <span class="status-blue">{{ $pinjaman->status }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow text-center border-0 p-4">
+                                <img src="{{ asset('assets/img/keuntungan-img-2.png') }}" class="d-block mx-auto" width="320">
+                                <h1 class="font-size-20 font-weight-700 mt-3">Admin Megajukan Penawaran</h1>
+                                <p class="font-size-15 font-weight-500 mt-2">Pihak UMKMPLUS mengajukan penwaran pinjaman yang bisa diberikan.</p>
                             </div>
-                            <div class="mt-2 border border-secondary rounded p-2 mt-4">
-                                <span class="font-size-15 font-weight-600">Note</span>
-                                <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Jika penawaran pinjaman belum dikonfirmasi sampai tanggal yang sudah ditentukan, maka pengajuan pinjaman otomatis akan dibatalkan.</p>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="modal fade" id="modalKonfirmasiPinjaman{{ $pinjaman->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Pinjaman</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST" action="{{ route('user.konfirmasi-pinjaman', ['id' => $pinjaman->id]) }}">
+                                    <div class="modal-body">
+                                        @csrf
+                                        <p>Pastikan penawaran jumlah pinjaman, tenor, dan bunga sudah sesuai dengan keinginan Anda sebelum melanjutkan.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Konfirmasi</button>
+                                    </div>
+                                </form>
                             </div>
-                            <h3 class="font-size-15 font-weight-600 mt-4">Pinjaman yang Ditawarkan</h3>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
-                                <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal fade" id="modalTolakPinjaman{{ $pinjaman->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Pinjaman</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="POST" action="{{ route('user.tolak-pinjaman', ['id' => $pinjaman->id]) }}">
+                                    <div class="modal-body">
+                                        @csrf
+                                        <p>Anda yakin ingin menolak penawaran pinjaman?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-danger">Tolak</button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Bunga</span>
-                                <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}%</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Tenor</span>
-                                <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                                <span class="font-size-13 font-weight-500 m-0">Batas Tanggal <br> Konfirmasi Pinjaman</span>
-                                <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
-                            </div>
-                            <button type="button" class="btn btn-primary w-100 mt-4" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiPinjaman">Setuju</button>
-                            <button type="button" class="btn btn-danger w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalTolakPinjaman">Tolak</button>
                         </div>
                     </div>
 
                 @elseif ($pinjaman->status == 'Dikonfirmasi')
         
-                <div class="col-md-3 col-sm-12 mt-4">
-                    <div class="card shadow border-0 p-4 mt-4 mt-md-0">
-                        <div class="d-flex align-items-center">
-                            <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
-                            <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
+                    <div class="row mt-4">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                            <div class="card shadow border-0 p-4 mt-4 mt-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('assets/img/toko-icon.svg') }}" class="me-2" width="45">
+                                    <span class="font-size-17 font-weight-600">{{ $pinjaman->nama_usaha }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4">
+                                    <span class="font-size-15 font-weight-600">Status</span>
+                                    <span class="status-blue">{{ $pinjaman->status }}</span>
+                                </div>
+                                <div class="mt-2 border border-secondary rounded p-2 mt-4">
+                                    <span class="font-size-15 font-weight-600">Note</span>
+                                    <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Pinjaman sudah dikonfirmasi oleh kedua belah pihak. Pinjaman anda sedang dalam proses pencairan dana</p>
+                                </div>
+                                <h3 class="font-size-15 font-weight-600 mt-4">Informasi Pinjaman</h3>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Bunga</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}% Per Tahun</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Tenor</span>
+                                    <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
+                                    <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Pengajuan Pinjaman</span>
+                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between mt-4">
-                            <span class="font-size-15 font-weight-600">Status</span>
-                            <span class="status-blue">{{ $pinjaman->status }}</span>
+                        <div class="col-md-6">
+                            <div class="card shadow text-center border-0 p-4">
+                                <img src="{{ asset('assets/img/thanks-img.png') }}" class="d-block mx-auto" width="320">
+                                <h1 class="font-size-20 font-weight-700 mt-3">Pinjaman Sudah Dikonfirmasi</h1>
+                                <p class="font-size-15 font-weight-500 mt-2">Pihak UMKMPLUS sedang memproses pencairan dana.</p>
+                            </div>
                         </div>
-                        <div class="mt-2 border border-secondary rounded p-2 mt-4">
-                            <span class="font-size-15 font-weight-600">Note</span>
-                            <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Pinjaman sudah dikonfirmasi oleh kedua belah pihak. Pinjaman anda sedang dalam proses pencairan dana</p>
-                        </div>
-                        <h3 class="font-size-15 font-weight-600 mt-4">Informasi Pinjaman</h3>
-                        <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
-                            <span class="font-size-13 font-weight-500 m-0">Jumlah Pinjaman</span>
-                            <span class="font-size-13 font-weight-600">{{ number_format($pinjaman->jml_pinjaman, 2) }}</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                            <span class="font-size-13 font-weight-500 m-0">Bunga</span>
-                            <span class="font-size-13 font-weight-600">{{ $pinjaman->bunga }}%</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                            <span class="font-size-13 font-weight-500 m-0">Tenor</span>
-                            <span class="font-size-13 font-weight-600">{{ $pinjaman->tenor }} Bulan</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
-                            <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Pengajuan Pinjaman</span>
-                            <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
-                        </div>
+                        <div class="col-md-1"></div>
                     </div>
-                </div>
             
                 @else
             
@@ -221,54 +297,12 @@
 
         @endforeach
 
-        <div class="modal fade" id="modalKonfirmasiPinjaman" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Pinjaman</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" action="{{ route('user.konfirmasi-pinjaman', ['id' => $pinjaman->id]) }}">
-                        <div class="modal-body">
-                            @csrf
-                            <p>Pastikan penawaran jumlah pinjaman, tenor, dan bunga sudah sesuai dengan keinginan Anda sebelum melanjutkan.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Konfirmasi</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <div class="modal fade" id="modalTolakPinjaman" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tolak Pinjaman</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" action="{{ route('user.tolak-pinjaman', ['id' => $pinjaman->id]) }}">
-                        <div class="modal-body">
-                            @csrf
-                            <p>Anda yakin ingin menolak penawaran pinjaman?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger">Tolak</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 
 @else
 
-    <div class="card shadow border-0 mx-auto w-50 p-5 mt-5">
+    <div class="card shadow margin-bottom-70 border-0 margin mx-auto w-50 p-5 mt-5">
         <img src="{{ asset('assets/img/logo.png') }}" class="d-block mx-auto" width="118" alt="Logo">
         <img src="{{ asset('assets/img/information-img.png') }}" class="d-block mx-auto mt-3" width="320">
         <h1 class="font-size-20 font-weight-700 text-center mt-3">Anda belum mengajukan pinjaman</h1>

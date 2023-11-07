@@ -11,6 +11,14 @@
     color: #006973;
 }
 
+.color-primary-2 {
+    color: #00838F;
+}
+
+.color-primary-3 {
+    color: #1899A3;
+}
+
 .color-secondary-1 {
     color: #6B7088;
 }
@@ -21,6 +29,10 @@
 
 .bg-primary-2 {
     background-color: #00838F;
+}
+
+.bg-primary-3 {
+    background-color: #1899A3;
 }
 
 .font-size-30 {
@@ -35,8 +47,16 @@
     font-size: 20px;
 }
 
+.font-size-18 {
+    font-size: 18px;
+}
+
 .font-size-17 {
     font-size: 17px;
+}
+
+.font-size-16 {
+    font-size: 16px;
 }
 
 .font-size-15 {
@@ -63,12 +83,32 @@
     font-weight: 500;
 }
 
+.font-weight-400 {
+    font-weight: 400;
+}
+
+.padding-y-80 {
+    padding: 80px 0;
+}
+
+.padding-y-150 {
+    padding: 150px 0;
+}
+
 .margin-x-100 {
     margin: 0 100px;
 }
 
 .margin-top-120 {
     margin-top: 120px;
+}
+
+.margin-top-100 {
+    margin-top: 100px;
+}
+
+.margin-y-120 {
+    margin: 120px 0;
 }
 
 .margin-top-80 {

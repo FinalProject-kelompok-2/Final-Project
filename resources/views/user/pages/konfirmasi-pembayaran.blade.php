@@ -4,7 +4,7 @@
 
 <form enctype="multipart/form-data" method="POST" action="{{ route('user.konfirmasi-pembayaran-store', ['id' => $angsuran->id]) }}">
 @csrf
-    <div class="card shadow border-0 w-50 mx-auto mt-5 p-5">
+    <div class="card shadow border-0 w-50 margin-bottom-70 mx-auto margin-top-100 p-5">
         <div class="d-flex align-items-center justify-content-between border-bottom pb-1 mb-5">
             <span class="font-size-17 font-weight-600">{{ $angsuran->pinjaman->nama_usaha }}</span>
             <span class="font-size-17 font-weight-600">Bulan {{ $angsuran->periode }}</span>
@@ -27,7 +27,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Pastikan uang telah di transfer ke rekening 112783654453 atas nama PT UMKMPLUS sebelum melanjutkan.</p>
+                    <p>Pastikan uang telah di transfer ke rekening <span class="fw-bold">112783654453</span> atas nama <span class="fw-bold">PT UMKMPLUS</span> sebelum melanjutkan.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -147,7 +147,7 @@
             </div>
             <div>
                 <label class="font-size-15 font-weight-500 mb-2">Bunga</label>
-                <p class="font-size-15 font-weight-600 border-bottom">{{ $pinjaman->bunga }}%</p>
+                <p class="font-size-15 font-weight-600 border-bottom">{{ $pinjaman->bunga }}% Per Tahun</p>
             </div>
         </div>
         <div class="col-md-6 ps-4">
@@ -238,7 +238,7 @@
                 <form method="POST" action="{{ route('admin.pencairan-dana', ['id' => $pinjaman->id]) }}">
                     <div class="modal-body">
                         @csrf
-                        <p>Pastikan uang telah di transfer ke rekening {{ $pinjaman->no_rekening }} atas nama {{ $pinjaman->nama_rekening }} sebelum melanjutkan. Konfirmasi pembayaran ini bersifat permanen dan tidak dapat dibatalkan.</p>
+                        <p>Pastikan uang telah di transfer ke rekening <span class="fw-bold">{{ $pinjaman->no_rekening }}</span> atas nama <span class="fw-bold">{{ $pinjaman->nama_rekening }}</span> sebelum melanjutkan. Konfirmasi pembayaran ini bersifat permanen dan tidak dapat dibatalkan.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -269,7 +269,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="edit_bunga">Bunga (%)</label>
-                            <input name="bunga" type="number" id="bunga" class="form-control" value="{{ $pinjaman->bunga }}">
+                            <input name="bunga" type="text" id="bunga" class="form-control" value="{{ $pinjaman->bunga }}">
                         </div>
                     </div>
                     <div class="modal-footer">

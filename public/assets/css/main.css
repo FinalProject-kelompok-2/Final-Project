@@ -117,3 +117,13 @@
 .completed {
     color: #1E891E;
 }
+
+.footer {
+    background-color: #2F383B;
+    padding: 120px 0;
+}
+
+.line {
+    border-bottom: 3px solid #ffffff;
+    width: 60px;
+}
