@@ -37,6 +37,8 @@
                             <span class="status-green">Sudah Dibayar</span>
                         @elseif ($angsuran->status == 'Tunggak')
                             <span class="status-red">Belum Dibayar</span>
+                        @elseif ($angsuran->status == 'Invalid')
+                            <span class="status-red">Invalid Payment</span>
                         @endif
                     </td>
                     <td class="text-center">
@@ -48,8 +50,13 @@
                             </a>
                         @endif
                     </td>
-                    <td>
-                        <x-btn-primary-green type="button" class="font-size-15 py-2 px-3" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiPembayaran{{ $angsuran->id }}">Konfirmasi</x-btn-primary-green>
+                    <td class="d-flex">
+                        <x-btn-primary-green type="button" class="font-size-15 py-2 px-3" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiPembayaran{{ $angsuran->id }}">
+                            <i class="fa-solid fa-check"></i>
+                        </x-btn-primary-green>
+                        <x-btn-primary-green type="button" style="background-color: #dc3545" class="font-size-15 py-2 px-3 ms-1" data-bs-toggle="modal" data-bs-target="#modalInvalid{{ $angsuran->id }}">
+                            <i class="fa-solid fa-xmark"></i>
+                        </x-btn-primary-green>
                     </td>
                 </tr>
 
@@ -68,6 +75,27 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Konfirmasi</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalInvalid{{ $angsuran->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Pembayaran Tidak Valid</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="{{ route('admin.invalid-pembayaran', ['id' => $angsuran->id]) }}">
+                                <div class="modal-body">
+                                    @csrf
+                                    <p>Pastikan kembali bahwa pembayaran angsuran benar-benar tidak valid dan pembayaran tidak masuk ke rekening <span class="fw-bold">112783654453</span> atas nama <span class="fw-bold">PT UMKMPLUS</span> sebelum melanjutkan.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Invalid Payment</button>
                                 </div>
                             </form>
                         </div>

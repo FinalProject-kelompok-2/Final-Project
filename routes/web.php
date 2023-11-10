@@ -22,6 +22,8 @@ Route::post('login', [AuthController::class, 'login_action'])->name('login_actio
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'register_action'])->name('register_action');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -37,6 +39,7 @@ Route::prefix('admin')->group(function () {
             Route::post('pencairan-dana/{id}','pencairan_dana')->name('admin.pencairan-dana');
             Route::get('kelola-pembayaran','kelola_pembayaran')->name('admin.kelola-pembayaran');
             Route::post('konfirmasi-pembayaran/{id}','konfirmasi_pembayaran')->name('admin.konfirmasi-pembayaran');
+            Route::post('invalid-pembayaran/{id}','invalid_pembayaran')->name('admin.invalid-pembayaran');
         });
     });
 });

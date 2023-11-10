@@ -15,7 +15,7 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
                         <h2 class="text-white text-center font-size-30 font-weight-700">UMKMPLUS</h2>
-                        <p class="text-white text-center font-size-20 font-weight-500">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                        <p class="text-white text-center font-size-20 font-weight-500">Solusi pinjaman modal UMKM Anda</p>
                         <img src="{{ asset('assets/img/img-auth.png') }}" class="d-block mx-auto mt-5" width="480">
                     </div>
                     <div class="col-md-2"></div>
@@ -55,10 +55,12 @@
                         <h6 class="text-option mt-4">
                             <span>Atau login dengan</span>
                         </h6>
-                        <x-btn-primary-white type="submit" class="d-flex align-items-center justify-content-center color-primary-1 w-100 py-2 mt-4">
-                            <img src="{{ asset('assets/img/google-icon.svg') }}" class="me-1" alt="google_logo">
-                            Google
-                        </x-btn-primary-white>
+                        <a href="{{ route('google.login') }}">
+                            <x-btn-primary-white type="button" class="d-flex align-items-center justify-content-center color-primary-1 w-100 py-2 mt-4">
+                                <img src="{{ asset('assets/img/google-icon.svg') }}" class="me-1" alt="google_logo">
+                                Google
+                            </x-btn-primary-white>
+                        </a>
                         
                         <div class="text-center font-weight-500 link-register">
                             Tidak punya akun? 

@@ -21,17 +21,17 @@ class DatabaseSeeder extends Seeder
 
         Tenor::create([
             'tenor' => 6,
-            'bunga' => 13,
+            'bunga' => 11,
         ]);
 
         Tenor::create([
             'tenor' => 12,
-            'bunga' => 12,
+            'bunga' => 10,
         ]);
 
         Tenor::create([
             'tenor' => 24,
-            'bunga' => 10,
+            'bunga' => 9,
         ]);
 
         Bank::create([

@@ -205,7 +205,7 @@ class UserController extends Controller
 
             $pinjaman->save();
 
-            return redirect()->route('user.pengajuan-pinjaman')->with('success', 'Pinjaman berhasil diajukan.');
+            return redirect()->route('user.home')->with('success', 'Pinjaman berhasil diajukan.');
         } catch (\Throwable $th) {
             return response()->json(['status' => $th->getMessage()]);
         }

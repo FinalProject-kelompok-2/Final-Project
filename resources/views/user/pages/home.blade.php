@@ -19,6 +19,12 @@
         </ul>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-success d-block mx-auto w-75 mt-3">{{ session('success') }}</div>
+    @elseif(session('error'))
+        <div class="alert alert-danger d-block mx-auto w-75 mt-3">{{ session('error') }}</div>
+    @endif
+
     
     <div class="tab-content margin-bottom-70" id="pills-tabContent">
         @foreach ($pinjamans as $index => $pinjaman)
@@ -38,7 +44,7 @@
                                 <div class="col-md-4">
                                     <div class="card shadow border-0 p-4 mt-3 mt-md-0">
                                         <span class="font-size-13 font-weight-600">Hutang Belum Dibayar</span>
-                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', 'Tunggak')->sum('biaya_angsuran'), 2) }}</h2>
+                                        <h2 class="font-size-24 font-weight-700 my-3">Rp {{ number_format($pinjaman->angsuran->where('status', '!=', 'Lunas')->sum('biaya_angsuran'), 2) }}</h2>
                                         <span class="text-primary font-size-11 font-weight-600">Total hutang sudah termasuk bunga {{ $pinjaman->bunga }}% per tahun</span>
                                     </div>
                                 </div>
@@ -90,7 +96,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
                                     <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Penerimaan Dana</span>
-                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->updated_at)->format('j F Y') }}</span>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
                                     <span class="font-size-13 font-weight-500 m-0">Tanggal <br> Pelunasan Akhir</span>
@@ -160,7 +166,7 @@
                                 </div>
                                 <div class="mt-2 border border-secondary rounded p-2 mt-4">
                                     <span class="font-size-15 font-weight-600">Note</span>
-                                    <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Jika penawaran pinjaman belum dikonfirmasi sampai tanggal yang sudah ditentukan, maka pengajuan pinjaman otomatis akan dibatalkan.</p>
+                                    <p class="font-size-15 font-weight-500 text-secondary mt-1 mb-1">Jika penawaran pinjaman belum dikonfirmasi sampai tanggal yang sudah ditentukan, maka pengajuan pinjaman akan dibatalkan.</p>
                                 </div>
                                 <h3 class="font-size-15 font-weight-600 mt-4">Pinjaman yang Ditawarkan</h3>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-2 pb-2">
@@ -177,7 +183,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between border-bottom border-secondary-subtle mt-3 pb-2">
                                     <span class="font-size-13 font-weight-500 m-0">Batas Tanggal <br> Konfirmasi Pinjaman</span>
-                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->created_at)->format('j F Y') }}</span>
+                                    <span class="font-size-13 font-weight-600">{{ \Carbon\Carbon::parse($pinjaman->updated_at->addDay(2))->format('j F Y') }}</span>
                                 </div>
                                 <button type="button" class="btn btn-primary w-100 mt-4" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiPinjaman{{ $pinjaman->id }}">Setuju</button>
                                 <button type="button" class="btn btn-danger w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalTolakPinjaman{{ $pinjaman->id }}">Tolak</button>
@@ -302,7 +308,7 @@
 
 @else
 
-    <div class="card shadow margin-bottom-70 border-0 margin mx-auto w-50 p-5 mt-5">
+    <div class="card shadow margin-bottom-70 border-0 margin-top-100 mx-auto w-50 p-5">
         <img src="{{ asset('assets/img/logo.png') }}" class="d-block mx-auto" width="118" alt="Logo">
         <img src="{{ asset('assets/img/information-img.png') }}" class="d-block mx-auto mt-3" width="320">
         <h1 class="font-size-20 font-weight-700 text-center mt-3">Anda belum mengajukan pinjaman</h1>

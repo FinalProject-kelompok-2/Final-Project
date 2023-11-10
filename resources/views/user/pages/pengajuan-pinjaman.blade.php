@@ -30,35 +30,40 @@
         <div class="tab-content mx-auto w-75" id="pills-tabContent">
             <div class="tab-pane fade show active" id="identitas-peminjam" role="tabpanel" aria-labelledby="pills-identitas-peminjam">
                 <div class="mb-3">
-                    <label class="form-label">Foto KTP <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Foto KTP <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim foto KTP Anda dengan format file .png .jpg atau .jpeg</p>
                     <input name="foto_ktp" class="form-control @error('foto_ktp') is-invalid @enderror" type="file" accept=".png, .jpg, .jpeg">
                     @error('foto_ktp')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Foto Selfie Dengan KTP <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Foto Selfie Dengan KTP <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim foto selfie KTP Anda dengan format file .png .jpg atau .jpeg</p>
                     <input name="selfie_ktp" class="form-control @error('selfie_ktp') is-invalid @enderror" type="file" accept=".png, .jpg, .jpeg">
                     @error('selfie_ktp')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Kartu Keluarga <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Kartu Keluarga <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim kartu keluarga Anda dengan format file .pdf</p>
                     <input name="kk" class="form-control @error('kk') is-invalid @enderror" type="file" accept=".pdf">
                     @error('kk')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">NPWP <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">NPWP <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim NPWP Anda dengan format file .pdf</p>
                     <input name="npwp" class="form-control @error('npwp') is-invalid @enderror" type="file" accept=".pdf">
                     @error('npwp')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-5">
-                    <label class="form-label">Buku Tabungan <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Buku Tabungan <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim buku tabungan Anda dengan format file .pdf</p>
                     <input name="buku_tabungan" class="form-control @error('buku_tabungan') is-invalid @enderror" type="file" accept=".pdf">
                     @error('buku_tabungan')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -84,35 +89,40 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Proposal Bisnis <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Proposal Bisnis <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim proposal bisnis Anda dengan format file .pdf</p>
                     <input name="proposal_bisnis" class="form-control @error('proposal_bisnis') is-invalid @enderror" type="file" accept=".pdf">
                     @error('proposal_bisnis')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Laporan Keuangan <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Laporan Keuangan <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim laporan keuangan Anda dengan format file .pdf .xls atau .xlsx</p>
                     <input name="laporan_keuangan" class="form-control @error('laporan_keuangan') is-invalid @enderror" type="file" accept=".pdf, .xls, .xlsx">
                     @error('laporan_keuangan')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Surat Izin Usaha (SIU) <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Surat Izin Usaha (SIU) <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim dokumen SIU Anda dengan format file .pdf</p>
                     <input name="siu" class="form-control @error('siu') is-invalid @enderror" type="file" accept=".pdf">
                     @error('siu')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Surat Keterangan Domisili Usaha (SKDU) <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Surat Keterangan Domisili Usaha (SKDU) <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim dokumen SKDU Anda dengan format file .pdf</p>
                     <input name="skdu" class="form-control @error('skdu') is-invalid @enderror" type="file" accept=".pdf">
                     @error('skdu')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-5">
-                    <label class="form-label">Surat Izin Tempat Usaha (SITU) <span class="text-danger fw-bold">*</span></label>
+                    <label class="form-label mb-1">Surat Izin Tempat Usaha (SITU) <span class="text-danger fw-bold">*</span></label>
+                    <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim dokumen SITU Anda dengan format file .pdf</p>
                     <input name="situ" class="form-control @error('situ') is-invalid @enderror" type="file" accept=".pdf">
                     @error('situ')
                         <div class="invalid-feedback">{{ $message }}</div>

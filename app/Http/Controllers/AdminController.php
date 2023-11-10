@@ -16,11 +16,14 @@ class AdminController extends Controller
         $pinjamanAktif = Pinjaman::where('status', 'Diterima')->count();
         $totalPinjaman = Pinjaman::where('status', 'Diterima')->sum('jml_pinjaman');
         $pengajuanPinjaman = Pinjaman::where('status', 'Diproses')->count();
+        $prosesPenawaran = Pinjaman::where('status', 'Penawaran')->count();
+        $menungguPencairan = Pinjaman::where('status', 'Dikonfirmasi')->count();
         $angsuranLunas = Angsuran::where('status', 'Lunas')->count();
         $uangDikembalikan = Angsuran::where('status', 'Lunas')->sum('biaya_angsuran');
         $angsuranTunggak = Angsuran::where('status', 'Tunggak')->count();
-        $uangBelumDikembalikan = Angsuran::where('status', 'Tunggak')->sum('biaya_angsuran');
-        return view('admin.pages.dashboard', compact('user', 'pinjamanAktif', 'pengajuanPinjaman', 'angsuranLunas', 'angsuranTunggak', 'totalPinjaman', 'uangDikembalikan', 'uangBelumDikembalikan'));
+        $uangBelumDikembalikan = Angsuran::where('status', '!=', 'Lunas')->sum('biaya_angsuran');
+        $angsuranDiproses = Angsuran::where('status', 'Proses')->count();
+        return view('admin.pages.dashboard', compact('user', 'pinjamanAktif', 'pengajuanPinjaman', 'prosesPenawaran', 'menungguPencairan', 'angsuranLunas', 'angsuranTunggak', 'totalPinjaman', 'uangDikembalikan', 'uangBelumDikembalikan', 'angsuranDiproses'));
     }
 
     public function profile() {
@@ -134,5 +137,13 @@ class AdminController extends Controller
         $angsuran->save();
     
         return redirect()->route('admin.kelola-pembayaran')->with('success', 'Pembayaran Angsuran berhasil dikonfirmasi.');
+    }
+
+    public function invalid_pembayaran($id) {
+        $angsuran = Angsuran::findOrFail($id);
+        $angsuran->status = 'Invalid';
+        $angsuran->save();
+    
+        return redirect()->route('admin.kelola-pembayaran')->with('success', 'Berhasil mengirim konfirmasi bahwa pembayaran tidak valid.');
     }
 }

@@ -10,7 +10,8 @@
             <span class="font-size-17 font-weight-600">Bulan {{ $angsuran->periode }}</span>
         </div>
         <div class="mb-4">
-            <label class="form-label">Bukti Pembayaran <span class="text-danger fw-bold">*</span></label>
+            <label class="form-label mb-1">Bukti Pembayaran <span class="text-danger fw-bold">*</span></label>
+            <p class="font-size-12 font-weight-500 text-danger mb-1">Kirim bukti pembayaran Anda dengan format file .pdf</p>
             <input name="bukti_pembayaran" class="form-control @error('bukti_pembayaran') is-invalid @enderror" type="file" accept=".pdf">
             @error('bukti_pembayaran')
                 <div class="invalid-feedback">{{ $message }}</div>

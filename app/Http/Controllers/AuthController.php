@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -88,5 +89,32 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
+    }
+
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback() {
+        $user = Socialite::driver('google')->user();
+        $findUser = User::where('email', $user->email)->first();
+        if ($findUser) {
+            Auth::login($findUser);
+            return redirect()->intended(route('user.home'));
+        } else {
+            $newUser = new User();
+            $newUser->nama = $user->name;
+            $newUser->email = $user->email;
+            $newUser->google_id = $user->id;
+            $newUser->password = bcrypt('123');
+            $newUser->remember_token = Str::random(10);
+            $newUser->role = 'user';
+            $newUser->save();
+
+            $newUser->UserDetail()->create();
+
+            Auth::login($newUser);
+            return redirect()->intended(route('user.home'));
+        }
     }
 }

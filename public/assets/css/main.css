@@ -127,3 +127,13 @@
     border-bottom: 3px solid #ffffff;
     width: 60px;
 }
+
+.sidebar-menu:hover {
+    background-color: #ECF3F3;
+    color: #1899A3;
+}
+
+.sidebar-menu.active {
+    background-color: #1899A3;
+    color: #ffffff;
+}

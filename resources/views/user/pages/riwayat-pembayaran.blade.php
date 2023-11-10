@@ -54,14 +54,20 @@
                                                             <span class="font-size-13 font-weight-600 status-green">Sudah Dibayar</span>
                                                         @elseif ($data->status == 'Proses')
                                                             <span class="font-size-13 font-weight-600 status-orange">Diproses</span>
-                                                        @else
+                                                        @elseif ($data->status == 'Tunggak')
                                                             <span class="font-size-13 font-weight-600 status-red">Belum Dibayar</span>
+                                                        @elseif ($data->status == 'Invalid')
+                                                            <span class="font-size-13 font-weight-600 status-red">Invalid Payment</span>
                                                         @endif
                                                     </td>
                                                     <td>
                                                         @if ($data->status == 'Tunggak')
                                                             <a href="{{ route('user.konfirmasi-pembayaran', ['id' => $data->id]) }}">
                                                                 <x-btn-primary-green class="font-size-13 w-100 py-2">Konfirmasi Pembayaran</x-btn-primary-green>
+                                                            </a>
+                                                        @elseif ($data->status == 'Invalid')
+                                                            <a href="https://api.whatsapp.com/send?phone=6281912368235&text=Hallo admin, saya butuh bantuan" target="_blank">
+                                                                <x-btn-primary-white class="font-size-13 w-100 py-2">Hubungi Admin</x-btn-primary-white>
                                                             </a>
                                                         @else
                                                             <a href="{{ Storage::url('bukti_pembayaran/' . $data->bukti_pembayaran) }}" target="_blank">
@@ -318,7 +324,7 @@
 
 @else
 
-    <div class="card shadow border-0 margin-bottom-70 mx-auto w-50 p-5 mt-5">
+    <div class="card shadow border-0 margin-bottom-70 margin-top-100 mx-auto w-50 p-5">
         <img src="{{ asset('assets/img/logo.png') }}" class="d-block mx-auto" width="118" alt="Logo">
         <img src="{{ asset('assets/img/information-img.png') }}" class="d-block mx-auto mt-3" width="320">
         <h1 class="font-size-20 font-weight-700 text-center mt-3">Anda belum mengajukan pinjaman</h1>

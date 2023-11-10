@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 50);
             $table->string('email', 50)->unique();
+            $table->string('google_id')->nullable(true);
             $table->string('password');
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->rememberToken();
